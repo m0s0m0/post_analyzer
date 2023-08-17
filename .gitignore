@@ -1,0 +1,29 @@
+#virtual environment
+venv
+env
+
+#pycache
+__pycache__
+
+#migrations
+migrations
+
+# pycharm
+.idea
+
+*.log
+
+.coverage
+
+.DS_Store
+
+celerybeat*
+
+htmlcov
+
+.pytest_cache
+coverage.xml
+
+celerybeat-schedule
+
+.vscode

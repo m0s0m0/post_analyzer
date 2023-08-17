@@ -1,0 +1,86 @@
+version: "3.7"
+
+services:
+  post_apis:
+    restart: always
+    image: post_apis:local
+    container_name: post_analyzer_service
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    depends_on:
+      - post_db
+      - redis
+    ports:
+      - "8000:8000"
+    stdin_open: true
+    tty: true
+    networks:
+      - post_network
+    volumes:
+      - ..:/app
+
+
+  post_db:
+    image: nouchka/sqlite3:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./db/:/root/db/
+
+  redis:
+    image: redis:latest
+    container_name: redis_service
+    ports:
+      - "6379:6379"
+    networks:
+      - post_network
+    volumes:
+      - redis-data:/data
+
+  #for hanfling tasks ashyncronously by celery 
+  
+  # post_workers:
+  #   restart: always
+  #   image: post_apis:local  # Use the same image as your post_apis service
+  #   container_name: post_workers
+  #   stdin_open: true
+  #   # build:
+  #   #   context: ..
+  #   #   dockerfile: ./docker/Dockerfile.celery
+
+  #   tty: true
+  #   depends_on:
+  #     - redis
+  #   networks:
+  #     - post_network
+  #   volumes:
+  #     - ..:/app
+
+  # flower:
+  #   image: mher/flower
+  #   container_name: flower
+  #   environment:
+  #     - CELERY_BROKER_URL=redis://redis:6379/2
+  #     - FLOWER_PORT=5555
+  #     - FLOWER_PERSISTENT=True
+  #     - FLOWER_STATE_SAVE_INTERVAL=10000
+  #     - FLOWER_DB=/etc/db/flower.db
+  #   ports:
+  #     - "5555:5555"
+  #   volumes:
+  #     - ./flower/storage:/etc/db/
+  #   networks:
+  #     - post_network
+  #   depends_on:
+  #     - redis
+
+
+volumes:
+  db-data:
+    driver: local
+  redis-data:
+    driver: local
+
+networks:
+  post_network:
