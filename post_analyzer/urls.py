@@ -17,19 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 
-
-
 handler404 = 'exceptions.exception_handler.error_404'
-handler500 ='exceptions.exception_handler.error_500'
+handler500 = 'exceptions.exception_handler.error_500'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/v1/', include('post.urls')),
-    re_path(
-         r'^api/(?P<version>(v1))/post/', include('post.urls')
-    ),
-
-]
-
-
-
+    re_path(r'^api/(?P<version>(v1))/post/', include('post.urls')),]

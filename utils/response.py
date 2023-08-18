@@ -1,11 +1,11 @@
-import json
 import time
 from datetime import date, datetime
 from decimal import Decimal
-from rest_framework.response import Response
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
+
 
 class ResponseSerializer:
+
     """
     A utility class for serializing data into JSON-compatible format.
 

@@ -23,6 +23,8 @@ COPY ./start_app.sh ./start_app.sh
 # Copy the current directory contents into the container at /app
 COPY . /app/
 
+RUN flake8 --ignore E501 .
+
 # Expose port 8000 for Gunicorn
 EXPOSE 8000
 
